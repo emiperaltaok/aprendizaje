@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfiles Tech 2026 — Guia Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --text: #f0f0f0;
+    --text2: #888;
+    --text3: #555;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.14);
+    --green: #7fff6b;
+    --blue: #47c8ff;
+    --amber: #ffb347;
+    --green-bg: rgba(127,255,107,0.08);
+    --blue-bg: rgba(71,200,255,0.08);
+    --amber-bg: rgba(255,179,71,0.08);
+    --green-border: rgba(127,255,107,0.25);
+    --blue-border: rgba(71,200,255,0.25);
+    --amber-border: rgba(255,179,71,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 48px 32px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+
+  h1 .g { color: var(--green); }
+  h1 .b { color: var(--blue); }
+
+  .subtitle {
+    color: var(--text2);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s, transform .15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+
+  .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .card:hover::before { opacity: 1; }
+  .card.active { transform: translateY(-2px); }
+  .card.active::before { opacity: 1; }
+
+  .card.build::before { background: var(--green); }
+  .card.design::before { background: var(--blue); }
+  .card.active.build { border-color: var(--green-border); background: var(--green-bg); }
+  .card.active.design { border-color: var(--blue-border); background: var(--blue-bg); }
+
+  .card-area {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .verb {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  .verb-build { background: rgba(127,255,107,0.12); color: var(--green); border: 1px solid var(--green-border); }
+  .verb-design { background: rgba(71,200,255,0.12); color: var(--blue); border: 1px solid var(--blue-border); }
+
+  .card-focus {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .you-star {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .detail {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    min-height: 200px;
+    transition: border-color .2s;
+  }
+
+  .detail.build { border-color: var(--green-border); }
+  .detail.design { border-color: var(--blue-border); }
+
+  .detail-placeholder {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text3);
+    font-size: 14px;
+  }
+
+  .detail-inner { display: none; }
+  .detail-inner.visible { display: block; }
+
+  .detail-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .detail-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .detail-area {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .detail-body {
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .detail-block {}
+
+  .detail-q {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .detail-a {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .you-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 99px;
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid var(--amber-border);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  .compare-section {}
+
+  .compare-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .compare-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 24px;
+  }
+
+  .axis-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+
+  .axis-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .axis-label {
+    font-size: 12px;
+    color: var(--text2);
+    text-align: right;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .axis-side {}
+
+  .axis-side-label {
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 5px;
+  }
+
+  .axis-bar {
+    height: 7px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .axis-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+
+  .fill-green { background: var(--green); }
+  .fill-blue { background: var(--blue); }
+
+  .mundo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .mundo-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+  }
+
+  .mundo-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .mundo-label.fisico { color: var(--amber); }
+  .mundo-label.virtual { color: var(--blue); }
+
+  .mundo-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .mundo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mundo-item {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+
+  .mundo-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .dot-amber { background: var(--amber); }
+  .dot-blue { background: var(--blue); }
+
+  .migration {
+    background: rgba(127,255,107,0.04);
+    border: 1px solid var(--green-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .migration-icon {
+    font-size: 18px;
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .you-section {
+    background: linear-gradient(135deg, rgba(255,179,71,0.04), rgba(71,200,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 40px;
+  }
+
+  .you-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--amber);
+  }
+
+  .you-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .you-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .you-item-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .you-item-value {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--amber);
+  }
+
+  .you-item-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .footer-brand span { color: var(--green); }
+
+  @media (max-width: 700px) {
+    body { padding: 28px 16px; }
+    h1 { font-size: 28px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .detail-body { grid-template-columns: 1fr; gap: 16px; }
+    .detail-header { flex-direction: column; }
+    .axis-row { grid-template-columns: 80px 1fr 1fr; }
+    .mundo-grid { grid-template-columns: 1fr; }
+    .you-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; }
+    .you-grid { grid-template-columns: 1fr; }
+    .axis-row { grid-template-columns: 1fr; }
+    .axis-label { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">Syncro — Guia de Aprendizaje v3</div>
+  <h1>Perfiles <span class="g">Tech</span><br><span class="b">2026</span></h1>
+  <p class="subtitle">Ingenieros y arquitectos de software, sistemas y cloud. Las diferencias reales entre cada perfil y por qué importan.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Construye — ejecutor</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Diseña — arquitecto</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>Tu perfil actual</div>
+</div>
+
+<div class="grid" id="cards">
+
+  <div class="card build" onclick="select(0)">
+    <div class="card-area">Software · interno</div>
+    <div class="card-name">Ingeniero de Software</div>
+    <span class="verb verb-build">Construye</span>
+    <div class="card-focus">Escribe el código. Implementa features, resuelve bugs.</div>
+  </div>
+
+  <div class="card design" onclick="select(1)">
+    <div class="card-area">Software · interno</div>
+    <div class="card-name">Arquitecto de Software</div>
+    <span class="verb verb-design">Diseña</span>
+    <div class="card-focus">Define dominios, capas y patrones antes de construir.</div>
+  </div>
+
+  <div class="card build" onclick="select(2)">
+    <div class="card-area">Sistemas · físico</div>
+    <div class="card-name">Ingeniero de Sistemas</div>
+    <span class="verb verb-build">Construye</span>
+    <div class="card-focus">Servidores físicos, redes, racks, data centers.</div>
+  </div>
+
+  <div class="card design" onclick="select(3)">
+    <div class="card-area">Sistemas · físico</div>
+    <div class="card-name">Arquitecto de Sistemas</div>
+    <span class="verb verb-design">Diseña</span>
+    <div class="card-focus">Cómo se conectan múltiples sistemas entre sí.</div>
+  </div>
+
+  <div class="card build" onclick="select(4)">
+    <div class="card-area">Cloud · virtual</div>
+    <div class="card-name">Ingeniero Cloud</div>
+    <span class="verb verb-build">Construye</span>
+    <div class="card-focus">Implementa infraestructura en AWS, GCP o Azure.</div>
+  </div>
+
+  <div class="card design" onclick="select(5)">
+    <div class="card-area">Cloud · virtual</div>
+    <div class="card-name">Arquitecto Cloud</div>
+    <span class="verb verb-design">Diseña</span>
+    <div class="card-focus">Diseña la arquitectura completa de un sistema cloud.</div>
+    <div class="you-star">★</div>
+  </div>
+
+</div>
+
+<div class="detail" id="detail">
+  <div class="detail-placeholder" id="placeholder">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Seleccioná un perfil para ver el detalle
+  </div>
+  <div class="detail-inner" id="detail-inner">
+    <div class="detail-header">
+      <div>
+        <div class="detail-name" id="d-name"></div>
+        <div class="detail-area" id="d-area"></div>
+      </div>
+      <div id="d-badge"></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-block">
+        <div class="detail-q" id="d-q1"></div>
+        <div class="detail-a" id="d-a1"></div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-q" id="d-q2"></div>
+        <div class="detail-a" id="d-a2"></div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-q" id="d-q3"></div>
+        <div class="detail-a" id="d-a3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="compare-section">
+  <div class="compare-title">Ingeniero vs Arquitecto — la diferencia clave</div>
+  <div class="compare-sub">No es que uno sabe mas que el otro. Saben cosas distintas con profundidades distintas.</div>
+
+  <div class="axis-grid">
+    <div class="axis-row">
+      <div class="axis-label">Conocimiento</div>
+      <div class="axis-side">
+        <div class="axis-side-label">Ingeniero — profundo en su area</div>
+        <div class="axis-bar"><div class="axis-fill fill-green" style="width:90%"></div></div>
+      </div>
+      <div class="axis-side">
+        <div class="axis-side-label">Arquitecto — amplio en todas las areas</div>
+        <div class="axis-bar"><div class="axis-fill fill-blue" style="width:70%"></div></div>
+      </div>
+    </div>
+    <div class="axis-row">
+      <div class="axis-label">Ejecucion</div>
+      <div class="axis-side">
+        <div class="axis-side-label">Ingeniero — ejecuta y construye</div>
+        <div class="axis-bar"><div class="axis-fill fill-green" style="width:95%"></div></div>
+      </div>
+      <div class="axis-side">
+        <div class="axis-side-label">Arquitecto — decide que ejecutar</div>
+        <div class="axis-bar"><div class="axis-fill fill-blue" style="width:40%"></div></div>
+      </div>
+    </div>
+    <div class="axis-row">
+      <div class="axis-label">Vision</div>
+      <div class="axis-side">
+        <div class="axis-side-label">Ingeniero — tactica (como lo hago)</div>
+        <div class="axis-bar"><div class="axis-fill fill-green" style="width:40%"></div></div>
+      </div>
+      <div class="axis-side">
+        <div class="axis-side-label">Arquitecto — estrategica (que construir)</div>
+        <div class="axis-bar"><div class="axis-fill fill-blue" style="width:90%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="compare-title">Mundo fisico vs mundo virtual</div>
+<div class="compare-sub">La misma logica de roles existe en los dos mundos. La diferencia es el medio.</div>
+<div class="mundo-grid">
+  <div class="mundo-card">
+    <div class="mundo-label fisico">Mundo fisico — infraestructura real</div>
+    <div class="mundo-title">Sistemas tradicionales</div>
+    <div class="mundo-list">
+      <div class="mundo-item"><div class="mundo-dot dot-amber"></div>Hardware tangible — servidores, cables, racks</div>
+      <div class="mundo-item"><div class="mundo-dot dot-amber"></div>Si algo se rompe, alguien va fisicamente a arreglarlo</div>
+      <div class="mundo-item"><div class="mundo-dot dot-amber"></div>Escalar significa comprar mas hardware</div>
+      <div class="mundo-item"><div class="mundo-dot dot-amber"></div>Data centers propios o alquilados</div>
+      <div class="mundo-item"><div class="mundo-dot dot-amber"></div>Base de conocimiento profunda en redes y SO</div>
+    </div>
+  </div>
+  <div class="mundo-card">
+    <div class="mundo-label virtual">Mundo virtual — cloud</div>
+    <div class="mundo-title">Sistemas cloud</div>
+    <div class="mundo-list">
+      <div class="mundo-item"><div class="mundo-dot dot-blue"></div>Todo es virtual — no hay hardware que tocar</div>
+      <div class="mundo-item"><div class="mundo-dot dot-blue"></div>Si algo falla, se reconfigura desde una consola</div>
+      <div class="mundo-item"><div class="mundo-dot dot-blue"></div>Escalar es cambiar un numero en un slider</div>
+      <div class="mundo-item"><div class="mundo-dot dot-blue"></div>AWS, GCP, Azure manejan el hardware por vos</div>
+      <div class="mundo-item"><div class="mundo-dot dot-blue"></div>Mayor demanda y crecimiento en 2026</div>
+    </div>
+  </div>
+</div>
+<div class="migration">
+  <div class="migration-icon">→</div>
+  <div>El camino natural es migrar del mundo fisico al cloud. Quien viene de sistemas tradicionales tiene ventaja — entiende los fundamentos que el cloud abstrae. Por eso los mejores arquitectos cloud suelen tener base en sistemas fisicos.</div>
+</div>
+
+<hr class="divider">
+
+<div class="you-section">
+  <div class="you-title">★ Tu perfil hoy — Syncro</div>
+  <div class="you-grid">
+    <div class="you-item">
+      <div class="you-item-label">Estudiando</div>
+      <div class="you-item-value">Arquitecto Cloud</div>
+      <div class="you-item-desc">AWS Solutions Architect — el curso que estas haciendo certifica exactamente este perfil.</div>
+    </div>
+    <div class="you-item">
+      <div class="you-item-label">Ya construiste</div>
+      <div class="you-item-value">Arq. de Sistemas</div>
+      <div class="you-item-desc">Syncro con 7 servicios conectados es arquitectura de sistemas distribuida en cloud.</div>
+    </div>
+    <div class="you-item">
+      <div class="you-item-label">Aprendiendo</div>
+      <div class="you-item-value">Arq. de Software</div>
+      <div class="you-item-desc">Dominios, archivos, responsabilidades. La vista interna del codigo que vimos hoy.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-brand">Emi Peralta — <span>Syncro</span></div>
+  <div class="footer-brand" style="font-size:11px">Perfiles Tech 2026 — Guia Visual v1.0</div>
+</div>
+
+<script>
+const data = [
+  {
+    name: 'Ingeniero de Software',
+    area: 'Software — vista interna del codigo',
+    type: 'build',
+    q1: 'Que hace', a1: 'Escribe funciones, componentes y clases. Resuelve bugs. Implementa las features que el arquitecto diseno. Trabaja adentro de los archivos.',
+    q2: 'Pregunta del dia', a2: '"Como hago que esto funcione?" — es un ejecutor. Su valor esta en la implementacion tecnica de calidad.',
+    q3: 'Necesita carrera universitaria', a3: 'En startups y empresas tech, no. Se valida por resultados. En corporaciones o gobierno, a veces piden titulo formal.',
+    you: false
+  },
+  {
+    name: 'Arquitecto de Software',
+    area: 'Software — vista interna del codigo',
+    type: 'design',
+    q1: 'Que hace', a1: 'Disena como se organiza el codigo antes de que alguien lo escriba. Define dominios, capas y patrones. No siempre escribe codigo.',
+    q2: 'Pregunta del dia', a2: '"Como deberia estar organizado esto?" — es un disenador. Su valor esta en tomar las decisiones correctas antes de construir.',
+    q3: 'Relacion con el ingeniero', a3: 'El arquitecto disena los planos. El ingeniero construye. Como el arquitecto de edificios y el albanil — los dos son necesarios.',
+    you: false
+  },
+  {
+    name: 'Ingeniero de Sistemas',
+    area: 'Sistemas — mundo fisico',
+    type: 'build',
+    q1: 'Que hace', a1: 'Trabaja con hardware real. Servidores fisicos, cables, racks, data centers, sistemas operativos instalados en maquinas reales.',
+    q2: 'Lo que lo diferencia del cloud', a2: 'Todo es tangible. Hay hardware que tocar. Si algo se rompe, alguien va fisicamente a repararlo. La infraestructura existe en un lugar fisico.',
+    q3: 'Camino natural', a3: 'Muchos ingenieros de sistemas migran al cloud. Su base en redes y sistemas operativos les da una ventaja profunda sobre quienes empezaron directamente en cloud.',
+    you: false
+  },
+  {
+    name: 'Arquitecto de Sistemas',
+    area: 'Sistemas — mundo fisico',
+    type: 'design',
+    q1: 'Que hace', a1: 'Disena como se conectan multiples sistemas entre si en infraestructura fisica. Define que tecnologias usar, como fluyen los datos y como escala.',
+    q2: 'Pregunta del dia', a2: '"Como conecto todo con todo en infraestructura fisica?" — piensa en el sistema completo, no en un componente.',
+    q3: 'Conexion con lo que construiste', a3: 'Tu sistema Syncro con 7 servicios conectados es arquitectura de sistemas — solo que en cloud en lugar de hardware fisico.',
+    you: false
+  },
+  {
+    name: 'Ingeniero Cloud',
+    area: 'Cloud — infraestructura virtual',
+    type: 'build',
+    q1: 'Que hace', a1: 'Implementa y mantiene infraestructura en AWS, GCP o Azure. Configura servidores virtuales, bases de datos, redes y pipelines de despliegue.',
+    q2: 'Diferencia con el mundo fisico', a2: 'Todo es virtual. No hay hardware que tocar. Los servidores son instancias, el almacenamiento es un servicio, la red es configuracion en una consola.',
+    q3: 'Que aprende especificamente', a3: 'Servicios especificos de cloud, automatizacion con Infrastructure as Code, monitoreo y seguridad en infraestructura virtual.',
+    you: false
+  },
+  {
+    name: 'Arquitecto Cloud',
+    area: 'Cloud — infraestructura virtual',
+    type: 'design',
+    q1: 'Que hace', a1: 'Disena la arquitectura completa de un sistema en la nube. Decide que servicios de AWS usar, como se conectan, como escala y cuanto cuesta.',
+    q2: 'Pregunta del dia', a2: '"Como diseno un sistema cloud escalable, seguro y eficiente?" — ve el sistema completo antes de que el ingeniero empiece a construirlo.',
+    q3: 'Es lo que estas estudiando', a3: 'AWS Solutions Architect es exactamente este perfil. La certificacion que estas haciendo te convierte en Arquitecto Cloud reconocido globalmente.',
+    you: true
+  }
+];
+
+function select(i) {
+  const d = data[i];
+  document.querySelectorAll('.card').forEach((c,j) => c.classList.toggle('active', j===i));
+  const detail = document.getElementById('detail');
+  detail.className = 'detail ' + d.type;
+  document.getElementById('placeholder').style.display = 'none';
+  const inner = document.getElementById('detail-inner');
+  inner.classList.add('visible');
+  document.getElementById('d-name').textContent = d.name;
+  document.getElementById('d-area').textContent = d.area;
+  document.getElementById('d-badge').innerHTML = d.you ? '<div class="you-badge">★ Tu perfil actual</div>' : '';
+  document.getElementById('d-q1').textContent = d.q1;
+  document.getElementById('d-a1').textContent = d.a1;
+  document.getElementById('d-q2').textContent = d.q2;
+  document.getElementById('d-a2').textContent = d.a2;
+  document.getElementById('d-q3').textContent = d.q3;
+  document.getElementById('d-a3').textContent = d.a3;
+}
+</script>
+</body>
+</html>
