@@ -433,6 +433,23 @@
     color: var(--text2);
     margin-bottom: 24px;
   }
+
+  @media (max-width: 640px) {
+    body { padding: 24px 16px; }
+    h1 { font-size: 28px; }
+    .rules { grid-template-columns: 1fr; }
+    .bad-good { grid-template-columns: 1fr; }
+    .analogy-grid { grid-template-columns: 1fr; }
+    .analogy-arrow { display: none; }
+    .file-row { flex-direction: column; gap: 8px; }
+    .file-name { min-width: unset; }
+    .domain-desc { display: none; }
+    .node-name { font-size: 15px; }
+    .example { padding: 20px 16px; }
+    .hierarchy { padding: 20px 16px; }
+    .analogy { padding: 20px 16px; }
+    .footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
