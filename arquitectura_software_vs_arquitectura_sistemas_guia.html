@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura de Sistemas vs Software — Guia Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0f0a;
+    --bg2: #131710;
+    --bg3: #1a1f17;
+    --accent: #7fff6b;
+    --accent2: #ffb347;
+    --accent3: #47c8ff;
+    --text: #f0f0f0;
+    --text2: #777;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 48px 32px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h1 span { color: var(--accent); }
+  h1 span.orange { color: var(--accent2); }
+
+  .subtitle {
+    color: var(--text2);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* COMPARACION PRINCIPAL */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .compare-card {
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .compare-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .card-software { background: rgba(127,255,107,0.04); border-color: rgba(127,255,107,0.2); }
+  .card-software::before { background: var(--accent); }
+
+  .card-sistemas { background: rgba(255,179,71,0.04); border-color: rgba(255,179,71,0.2); }
+  .card-sistemas::before { background: var(--accent2); }
+
+  .compare-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .card-software .compare-label { color: var(--accent); }
+  .card-sistemas .compare-label { color: var(--accent2); }
+
+  .compare-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .compare-def {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .compare-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .compare-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .card-software .compare-dot { background: var(--accent); }
+  .card-sistemas .compare-dot { background: var(--accent2); }
+
+  .compare-pregunta {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+
+  .card-software .compare-pregunta { background: rgba(127,255,107,0.08); color: var(--accent); }
+  .card-sistemas .compare-pregunta { background: rgba(255,179,71,0.08); color: var(--accent2); }
+
+  /* ANALOGIA EDIFICIO */
+  .analogy-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .building {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-top: 24px;
+  }
+
+  .building-side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .building-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .building-label.green { color: var(--accent); }
+  .building-label.orange { color: var(--accent2); }
+
+  .floor {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    line-height: 1.4;
+  }
+
+  .floor-green { background: rgba(127,255,107,0.06); border-color: rgba(127,255,107,0.15); }
+  .floor-orange { background: rgba(255,179,71,0.06); border-color: rgba(255,179,71,0.15); }
+
+  .floor-title { font-weight: 600; margin-bottom: 2px; font-size: 13px; }
+  .floor-desc { color: var(--text2); font-size: 12px; }
+
+  .building-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding-top: 32px;
+  }
+
+  .arrow-line {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  .arrow-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text2);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+  }
+
+  /* TU SISTEMA SYNCRO */
+  .syncro-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .syncro-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .syncro-badge {
+    background: rgba(127,255,107,0.1);
+    border: 1px solid rgba(127,255,107,0.3);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  .syncro-title { font-size: 20px; font-weight: 700; }
+  .syncro-sub { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+  .syncro-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .syncro-col {
+    padding: 28px;
+  }
+
+  .syncro-col:first-child {
+    border-right: 1px solid var(--border);
+  }
+
+  .syncro-col-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .syncro-col:first-child .syncro-col-title { color: var(--accent); }
+  .syncro-col:last-child .syncro-col-title { color: var(--accent2); }
+
+  .syncro-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .syncro-item:last-child { border-bottom: none; }
+
+  .syncro-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    min-width: 20px;
+  }
+
+  .syncro-item-name { font-weight: 600; }
+  .syncro-item-desc { color: var(--text2); font-size: 12px; margin-top: 2px; }
+
+  /* SISTEMA VISUAL SYNCRO */
+  .infra-diagram {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .infra-center {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 24px;
+  }
+
+  .infra-core {
+    background: rgba(127,255,107,0.1);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px 28px;
+    text-align: center;
+  }
+
+  .infra-core-name { font-size: 18px; font-weight: 700; }
+  .infra-core-sub { font-size: 12px; color: var(--text2); font-family: 'Space Mono', monospace; }
+
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .infra-grid-bottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .infra-node {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .infra-node-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .infra-node-role {
+    font-size: 11px;
+    color: var(--text2);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.4;
+  }
+
+  .n-vercel { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.12); }
+  .n-supabase { background: rgba(71,200,100,0.06); border-color: rgba(71,200,100,0.2); }
+  .n-anthropic { background: rgba(232,150,71,0.06); border-color: rgba(232,150,71,0.2); }
+  .n-meta { background: rgba(71,150,255,0.06); border-color: rgba(71,150,255,0.2); }
+  .n-cloudflare { background: rgba(255,179,71,0.06); border-color: rgba(255,179,71,0.2); }
+  .n-github { background: rgba(200,200,200,0.04); border-color: rgba(200,200,200,0.12); }
+  .n-mp { background: rgba(100,180,255,0.06); border-color: rgba(100,180,255,0.2); }
+
+  .infra-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text2);
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* CUANDO USAR CADA UNA */
+  .when-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .when-card {
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .when-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .when-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .when-item {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .when-item:last-child { border-bottom: none; }
+
+  .when-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .green { color: var(--accent); }
+  .orange { color: var(--accent2); }
+  .blue { color: var(--accent3); }
+
+  /* RESUMEN FINAL */
+  .summary {
+    background: linear-gradient(135deg, rgba(127,255,107,0.04), rgba(255,179,71,0.04));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .summary-item {
+    text-align: center;
+    padding: 20px;
+    background: var(--bg2);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .summary-concept {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .summary-value {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .summary-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .footer-brand span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">Syncro — Guia de Aprendizaje v2</div>
+  <h1>Arquitectura de<br><span>Software</span> vs <span class="orange">Sistemas</span></h1>
+  <p class="subtitle">Dos conceptos distintos que se complementan. Uno describe el interior del codigo. El otro describe como los sistemas se conectan entre si.</p>
+</div>
+
+<!-- COMPARACION -->
+<div class="section-title">Las dos arquitecturas</div>
+<div class="section-sub">No son lo mismo. No se reemplazan. Las dos existen en cualquier producto digital.</div>
+<div class="compare">
+
+  <div class="compare-card card-software">
+    <div class="compare-label">Vista interna</div>
+    <div class="compare-name">Arquitectura de Software</div>
+    <div class="compare-def">Como se organiza el codigo adentro de un sistema. Dominios, archivos, funciones, capas. Es la estructura interna que solo ve el desarrollador.</div>
+    <div class="compare-list">
+      <div class="compare-item"><div class="compare-dot"></div><span>Como se dividen los dominios</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Cuantos archivos tiene cada dominio</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Que responsabilidad tiene cada archivo</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Como se comunican los componentes entre si</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Patrones de diseno usados</span></div>
+    </div>
+    <div class="compare-pregunta">Pregunta que responde:<br>"Como esta organizado el codigo adentro?"</div>
+  </div>
+
+  <div class="compare-card card-sistemas">
+    <div class="compare-label">Vista externa</div>
+    <div class="compare-name">Arquitectura de Sistemas</div>
+    <div class="compare-def">Como se conectan multiples sistemas entre si. Servidores, bases de datos, APIs, servicios externos, redes. Es la infraestructura que sostiene todo.</div>
+    <div class="compare-list">
+      <div class="compare-item"><div class="compare-dot"></div><span>Donde corre el codigo (cloud, servidor)</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Como se conectan los servicios externos</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Quien maneja la base de datos</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Como fluyen los datos entre sistemas</span></div>
+      <div class="compare-item"><div class="compare-dot"></div><span>Seguridad, escalabilidad, disponibilidad</span></div>
+    </div>
+    <div class="compare-pregunta">Pregunta que responde:<br>"Como se conecta todo con todo?"</div>
+  </div>
+
+</div>
+
+<!-- ANALOGIA -->
+<div class="analogy-block">
+  <div class="section-title">La analogia del edificio</div>
+  <div class="section-sub">La forma mas clara de entender la diferencia.</div>
+
+  <div class="building">
+    <div class="building-side">
+      <div class="building-label green">Arquitectura de Software = Interior del edificio</div>
+      <div class="floor floor-green">
+        <div class="floor-title">Dominio: Pagos</div>
+        <div class="floor-desc">Departamento de finanzas — tiene sus propias habitaciones y funciones</div>
+      </div>
+      <div class="floor floor-green">
+        <div class="floor-title">Dominio: Usuarios</div>
+        <div class="floor-desc">Departamento de RRHH — maneja identidades y roles</div>
+      </div>
+      <div class="floor floor-green">
+        <div class="floor-title">Dominio: Turnos</div>
+        <div class="floor-desc">Departamento de operaciones — coordina agenda y recursos</div>
+      </div>
+      <div class="floor floor-green">
+        <div class="floor-title">Archivos y funciones</div>
+        <div class="floor-desc">Empleados con roles especificos dentro de cada departamento</div>
+      </div>
+    </div>
+
+    <div class="building-arrow">
+      <div class="arrow-line"></div>
+      <div style="font-size:18px;color:var(--text2)">↔</div>
+      <div class="arrow-line"></div>
+    </div>
+
+    <div class="building-side">
+      <div class="building-label orange">Arquitectura de Sistemas = Conexiones externas</div>
+      <div class="floor floor-orange">
+        <div class="floor-title">Red electrica</div>
+        <div class="floor-desc">El servidor cloud — sin esto nada funciona</div>
+      </div>
+      <div class="floor floor-orange">
+        <div class="floor-title">Cañerias de agua</div>
+        <div class="floor-desc">La base de datos — flujo de informacion</div>
+      </div>
+      <div class="floor floor-orange">
+        <div class="floor-title">Telefono e internet</div>
+        <div class="floor-desc">Las APIs externas — comunicacion con otros sistemas</div>
+      </div>
+      <div class="floor floor-orange">
+        <div class="floor-title">Seguridad del edificio</div>
+        <div class="floor-desc">Autenticacion, firewall, CDN — proteccion del sistema</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TU SISTEMA SYNCRO -->
+<div class="syncro-block">
+  <div class="syncro-header">
+    <div class="syncro-badge">Tu sistema real</div>
+    <div>
+      <div class="syncro-title">Syncro — Sistema dental</div>
+      <div class="syncro-sub">Como aplican las dos arquitecturas a lo que ya construiste</div>
+    </div>
+  </div>
+  <div class="syncro-body">
+    <div class="syncro-col">
+      <div class="syncro-col-title">Arquitectura de software — el codigo adentro</div>
+      <div class="syncro-item">
+        <div class="syncro-num">01</div>
+        <div>
+          <div class="syncro-item-name">Dominio: Turnos</div>
+          <div class="syncro-item-desc">Reservar, cancelar, recordar, historial</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">02</div>
+        <div>
+          <div class="syncro-item-name">Dominio: Pacientes</div>
+          <div class="syncro-item-desc">Registro, perfil, historial medico</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">03</div>
+        <div>
+          <div class="syncro-item-name">Dominio: Chatbot</div>
+          <div class="syncro-item-desc">IA conversacional, Q&A, fallback Gemini</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">04</div>
+        <div>
+          <div class="syncro-item-name">Dominio: Admin</div>
+          <div class="syncro-item-desc">Dashboard, reportes, gestion</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">05</div>
+        <div>
+          <div class="syncro-item-name">Dominio: Pagos</div>
+          <div class="syncro-item-desc">Cobros, facturas, historial financiero</div>
+        </div>
+      </div>
+    </div>
+    <div class="syncro-col">
+      <div class="syncro-col-title">Arquitectura de sistemas — los 7 servicios conectados</div>
+      <div class="syncro-item">
+        <div class="syncro-num">01</div>
+        <div>
+          <div class="syncro-item-name green">Vercel</div>
+          <div class="syncro-item-desc">Deploy y hosting serverless del frontend</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">02</div>
+        <div>
+          <div class="syncro-item-name green">Supabase</div>
+          <div class="syncro-item-desc">Base de datos PostgreSQL + realtime + auth</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">03</div>
+        <div>
+          <div class="syncro-item-name orange">Anthropic</div>
+          <div class="syncro-item-desc">Motor de IA — Claude para el chatbot</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">04</div>
+        <div>
+          <div class="syncro-item-name blue">Meta</div>
+          <div class="syncro-item-desc">WhatsApp Business API — canal de comunicacion</div>
+        </div>
+      </div>
+      <div class="syncro-item">
+        <div class="syncro-num">05</div>
+        <div>
+          <div class="syncro-item-name orange">Cloudflare + GitHub + MercadoPago</div>
+          <div class="syncro-item-desc">CDN + control de versiones + pagos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIAGRAMA INFRA -->
+<div class="infra-diagram">
+  <div class="section-title">Tu arquitectura de sistemas — vista grafica</div>
+  <div class="section-sub">Como se conectan los 7 servicios de Syncro. Esto es lo que el curso AWS te ensena a diseñar.</div>
+
+  <div class="infra-label" style="margin-top:24px">Capa de seguridad y distribucion</div>
+  <div class="infra-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="infra-node n-cloudflare">
+      <div class="infra-node-name orange">Cloudflare</div>
+      <div class="infra-node-role">CDN + firewall<br>proteccion DDoS</div>
+    </div>
+    <div class="infra-node n-github">
+      <div class="infra-node-name" style="color:#ccc">GitHub</div>
+      <div class="infra-node-role">Control de versiones<br>CI/CD pipeline</div>
+    </div>
+  </div>
+
+  <div class="infra-center">
+    <div class="infra-core">
+      <div class="infra-core-name">Tu sistema Syncro</div>
+      <div class="infra-core-sub">React + TypeScript — Vercel</div>
+    </div>
+  </div>
+
+  <div class="infra-label">Servicios conectados al core</div>
+  <div class="infra-grid">
+    <div class="infra-node n-supabase">
+      <div class="infra-node-name green">Supabase</div>
+      <div class="infra-node-role">Base de datos<br>Auth + Realtime</div>
+    </div>
+    <div class="infra-node n-anthropic">
+      <div class="infra-node-name orange">Anthropic</div>
+      <div class="infra-node-role">Claude API<br>Motor de IA</div>
+    </div>
+    <div class="infra-node n-meta">
+      <div class="infra-node-name blue">Meta</div>
+      <div class="infra-node-role">WhatsApp API<br>Notificaciones</div>
+    </div>
+    <div class="infra-node n-mp">
+      <div class="infra-node-name" style="color:#7ad5ff">MercadoPago</div>
+      <div class="infra-node-role">Pagos y cobros<br>Argentina</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:rgba(127,255,107,0.04);border:1px solid rgba(127,255,107,0.15);border-radius:10px;font-size:13px;color:var(--text2);line-height:1.7">
+    <span class="green" style="font-weight:600">Lo que lograste:</span> Construiste una arquitectura distribuida de 7 servicios sin infraestructura propia. Costo operativo ~$10 USD/mes. Escalable a 100 clientes sin cambiar la arquitectura. Cuando migres a AWS, esta misma arquitectura se replica — solo cambian los proveedores de algunas capas.
+  </div>
+</div>
+
+<!-- CUANDO APLICA CADA UNA -->
+<div class="section-title">Cuando pensas en cada una</div>
+<div class="section-sub">Segun el momento del proyecto, te enfocas en una u otra.</div>
+<div class="when-grid">
+  <div class="when-card">
+    <div class="when-title">
+      <div class="when-dot" style="background:var(--accent)"></div>
+      <span>Pensas en arquitectura de software cuando...</span>
+    </div>
+    <div class="when-item"><div class="when-arrow green">→</div><span>Diseñas como dividir el codigo en dominios</span></div>
+    <div class="when-item"><div class="when-arrow green">→</div><span>Decidis que hace cada archivo y que no</span></div>
+    <div class="when-item"><div class="when-arrow green">→</div><span>Le pides a Claude que construya una feature nueva</span></div>
+    <div class="when-item"><div class="when-arrow green">→</div><span>Auditás un repo con Understand Anything</span></div>
+    <div class="when-item"><div class="when-arrow green">→</div><span>Refactorizas codigo que crece demasiado</span></div>
+  </div>
+  <div class="when-card">
+    <div class="when-title">
+      <div class="when-dot" style="background:var(--accent2)"></div>
+      <span>Pensas en arquitectura de sistemas cuando...</span>
+    </div>
+    <div class="when-item"><div class="when-arrow orange">→</div><span>Elegis donde deployar (Vercel, AWS, Railway)</span></div>
+    <div class="when-item"><div class="when-arrow orange">→</div><span>Conectas un servicio externo (API, DB, pago)</span></div>
+    <div class="when-item"><div class="when-arrow orange">→</div><span>El sistema necesita escalar a mas clientes</span></div>
+    <div class="when-item"><div class="when-arrow orange">→</div><span>Estudias el curso de AWS Solutions Architect</span></div>
+    <div class="when-item"><div class="when-arrow orange">→</div><span>Planeas migrar de 7 servicios a AWS</span></div>
+  </div>
+</div>
+
+<!-- RESUMEN -->
+<div class="summary">
+  <div class="section-title">El resumen en 3 conceptos</div>
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="summary-concept">Arquitectura de software</div>
+      <div class="summary-value green">El adentro</div>
+      <div class="summary-desc">Dominios, archivos, funciones. Como esta organizado el codigo.</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-concept">Arquitectura de sistemas</div>
+      <div class="summary-value orange">El afuera</div>
+      <div class="summary-desc">Servicios, APIs, bases de datos. Como se conecta todo.</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-concept">La relacion entre ambas</div>
+      <div class="summary-value blue">Complementarias</div>
+      <div class="summary-desc">Todo producto digital necesita las dos. Una sin la otra no funciona.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-brand">Emi Peralta — <span>Syncro</span></div>
+  <div class="footer-brand" style="font-size:11px">Arquitectura de Sistemas vs Software — Guia Visual v1.0</div>
+</div>
+
+</body>
+</html>
